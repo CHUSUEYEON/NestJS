@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+}
+
+// tsconfig.json의 연장선상 파일이며 build를 할 때 필요한 설정들
+
+// "excludes"에서는 빌드할 때 필요없는 파일들 명시
