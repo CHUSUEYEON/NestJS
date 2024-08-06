@@ -1,6 +1,6 @@
 // Service는 게시물에 관한 로직 처리하는 곳
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Board, BoardStatus } from './board.model';
 import { v1 as uuid } from 'uuid';
 import { createBoardDto } from './dto/create-board.dto';
@@ -29,11 +29,16 @@ export class BoardsService {
   }
 
   getBoardById(id: string): Board {
-    return this.boards.find((board) => board.id === id);
+    const found = this.boards.find((board) => board.id === id);
+    if (!found) {
+      throw new NotFoundException(`Can't find Board with id ${id}`);
+    }
+    return found;
   }
 
   deleteBoard(id: string): void {
-    this.boards = this.boards.filter((board) => board.id !== id);
+    const found = this.getBoardById(id); // 없는 게시물을 지우려 할 때 결과값 처리
+    this.boards = this.boards.filter((board) => board.id !== found.id);
     // id가 다른 board만 남겨짐.
   }
 
